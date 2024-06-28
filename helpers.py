@@ -17,3 +17,10 @@ def password():
 def email():
     email_user = fake.email()
     return email_user
+
+
+def data_user():
+    data = {"email": f'{email()}',
+            "password": f'{password()}',
+            "name": f'{login()}'}
+    return data

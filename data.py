@@ -1,17 +1,11 @@
-from helpers import login, password, email
+from helpers import login, password, email, data_user
 
 
 class Data:
     URL = 'https://stellarburgers.nomoreparties.site'
-    CREATE_USER_BODY = {"email": f"{email()}",
-                        "password": f"{password()}",
-                        "name": f"{login()}"}
-    LOGIN_USER_BODY = {"email": CREATE_USER_BODY["email"],"password": CREATE_USER_BODY["password"]}
-    LOGIN_USER_BODY_WRONG_LOGIN = {"email": f'{CREATE_USER_BODY["email"]}abc',
-                                   "password": CREATE_USER_BODY["password"]}
 
-    LOGIN_USER_BODY_WRONG_PASSWORD = {"email": f'{CREATE_USER_BODY["email"]}',
-                                      "password": f'{CREATE_USER_BODY["password"]}123'}
+    LOGIN_USER_BODY_WRONG_PASSWORD_NAME = {"email": f'qwer{data_user()["email"]}',
+                                           "password": f'{data_user()["password"]}123'}
     CREATE_USER_BODY_WITHOUT_NAME = {"email": f"{email()}", "password": f"{password()}"}
     CREATE_USER_BODY_WITHOUT_EMAIL = {"password": f"{password()}", "name": f"{login()}"}
     CREATE_USER_BODY_WITHOUT_PASSWORD = {"email": f"{email()}", "name": f"{login()}"}
@@ -32,14 +26,13 @@ class OrderResponse:
 
 
 class DataResponse(Data):
-    RESPONSE_TEXT_CREATE_USER = {"email": Data.CREATE_USER_BODY["email"], "name": Data.CREATE_USER_BODY["name"]}
     RESPONSE_TEXT_CREATE_SAME_USER = {"success": False, "message": "User already exists"}
     RESPONSE_TEXT_CREATE_USER_WITHOUT_FIELD = {"success": False,
                                                "message": "Email, password and name are required fields"}
     RESPONSE_TEXT_LOGIN_USER_WRONG_LOGIN_OR_PASSWORD = {"success": False, "message": "email or password are incorrect"}
 
     RESPONSE_TEXT_UPDATE_USER_DATA_WITH_LOGIN_EMAIL = {"success": True, "user":
-                                {"email": Data.UPDATE_USER_DATA_EMAIL['email'], "name": Data.CREATE_USER_BODY['name']}}
+        {"email": Data.UPDATE_USER_DATA_EMAIL['email'], "name": data_user()['name']}}
     RESPONSE_TEXT_UPDATE_USER_DATA_WITH_LOGIN_NAME = {"success": True, "user":
-                                {"email": Data.CREATE_USER_BODY['email'], "name": Data.UPDATE_USER_DATA_NAME['name']}}
+        {"email": data_user()['email'], "name": Data.UPDATE_USER_DATA_NAME['name']}}
     RESPONSE_TEXT_UPDATE_USER_DATA_WITHOUT_LOGIN = {"success": False, "message": "You should be authorised"}

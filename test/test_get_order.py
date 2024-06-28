@@ -1,20 +1,18 @@
 import allure
-from methods.user import User
 from data import Data, DataResponse, DataOrder
 from methods.order import Order
+from conftest import create_user
 
 
 class TestGetOrderUser:
 
     @allure.title('Проверка успешного получения списка заказов конкретного пользователя, который зарегистрирован')
-    def test_get_order_user_with_login(self):
+    def test_get_order_user_with_login(self, create_user):
         order = Order()
-        headers = {'Authorization': User().create_user(Data.CREATE_USER_BODY).json()['accessToken']}
-        response = order.get_order_real_user(headers, DataOrder.WITHOUT_INGREDIENTS_BODY)
+        response = order.get_order_real_user(create_user[2], DataOrder.WITHOUT_INGREDIENTS_BODY)
         assert response.json()['success']
         assert response.json()['orders'] == []
         assert response.status_code == 200
-        User().delete_user(headers)
 
     @allure.title('Проверка неполучения списка заказов конкретного пользователя, который не зарегистрирован')
     def test_get_order_user_without_login(self):
